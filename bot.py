@@ -23,13 +23,14 @@ def launchGame():
     subprocess.Popen(r'"C:\Program Files\BlueStacks_nxt\HD-Player.exe" --instance Pie64 --cmd launchApp --package com.supercell.clashroyale --source desktop_shortcut', shell=True)
     print("Launched the game")
 
+
 #start battle
 def startBattle():
     battle_x = 967
     battle_y=842
     pyautogui.click(battle_x, battle_y)
+    time.sleep(5)
     print("Battle Started")
-    time.sleep(1)
     last_check = time.time()
 
     while True:
@@ -44,18 +45,19 @@ def startBattle():
 #check for battle in progress
 def safeLocate(img, confidence=0.8):
     try:
-        return pyautogui.locateOnScreen(img, confidence=confidence)
-    except pyscreeze.ImageNotFoundException:
+        return pyautogui.locateOnScreen(img, confidence, region=(1150, 0, 110, 30))
+    except pyautogui.ImageNotFoundException:
+        return None   # don’t crash, just say "not found"
+    except Exception as e:
+        print(f"Error locating {img}: {e}")
         return None
 
 def inBattle():
-    if safeLocate('victory.png') is not None:
-        print("Battle ended: victory")
+    if safeLocate('timeLeft.png') is not None:
+        return True
+    else:
+        print("Battle ended")
         return False
-    if safeLocate('defeat.png') is not None:
-        print("Battle ended: defeat")
-        return False
-    return True
 
 
 

@@ -1,6 +1,8 @@
 import time
+import numpy as np
 import pyautogui
 import random
+
 
 cards = [
     (840, 950),  # card1
@@ -15,12 +17,16 @@ arena_bounds = {
     "y_min": 490,
     "y_max": 790
 }
+
+elixer_avg_value = 171.56
+elixir_region = (795, 1055, 5, 5)
+
 #start battle
 def startBattle():
     battle_x = 967
     battle_y=842
     pyautogui.click(battle_x, battle_y)
-    time.sleep(1)
+    time.sleep(7)
     print("Battle Started")
     last_check = time.time()
 
@@ -28,26 +34,23 @@ def startBattle():
         playCard()
         time.sleep(5)
 
-        if (time.time() - last_check >= 30):
+        if (time.time() - last_check >= 10):
             if not inBattle():
+                print("Battle ended")
                 break
             last_check = time.time()
 
 #check for battle in progress
-def safeLocate(img, confidence=0.8):
-    try:
-        return pyautogui.locateOnScreen(img, confidence, region=(1150, 0, 110, 30))
-    except pyautogui.ImageNotFoundException:
-        return None   # don’t crash, just say "not found"
-    except Exception as e:
-        print(f"Error locating {img}: {e}")
-        return None
+def avg_brightness(region):
+    screenshot = pyautogui.screenshot(region=region)
+    img = np.array(screenshot)  # convert to numpy
+    return img.mean()  # average pixel intensity
 
 def inBattle():
-    if safeLocate('timeLeft.png') is not None:
+    val = avg_brightness(elixir_region)
+    if val >= 170 and val <= 175:
         return True
-    else:
-        print("Battle ended")
+    else :
         return False
 
 
