@@ -1,38 +1,31 @@
 # ClashRoyaleBot
 
-A Python bot that automates **Clash Royale** gameplay on **BlueStacks**.
+A Python bot that automates Clash Royale gameplay on BlueStacks.
 
 ## Features
-
-- Launches Clash Royale automatically in BlueStacks  
-- Starts battles and plays cards without manual input  
-- Randomized card positions and drop locations for more natural gameplay  
-- Detects battle status using on-screen templates (Victory, Defeat, or Time Left)  
-- Plays continuously until the battle ends  
+- Automatically launches Clash Royale in BlueStacks
+- Starts battles and plays cards without manual input
+- Randomized card positions and drop locations for more natural gameplay
+- Detects battle state by checking the elixir bar brightness (disappears when battle ends)
+- Stops automatically once the battle is over
 
 ## Requirements
-
-- Python 3.x  
-- [PyAutoGUI](https://pypi.org/project/PyAutoGUI/)  
-- BlueStacks installed with Clash Royale  
-- Screenshots of `timeLeft.png`, `victory.png`, and `defeat.png` for battle detection  
+- Python 3.x
+- PyAutoGUI
+- NumPy
+- BlueStacks installed with Clash Royale
 
 ## Usage
-
 1. Clone this repository:
-
-git clone https://github.com/your-username/ClashRoyaleBot.git
-
+   git clone https://github.com/your-username/ClashRoyaleBot.git
+   cd ClashRoyaleBot
 
 2. Install required packages:
+   pip install pyautogui numpy
 
-pip install pyautogui
+3. Adjust coordinates in bot.py (card positions, arena bounds, and elixir region) if your BlueStacks window resolution differs.
 
-
-3. Place the template images (timeLeft.png, victory.png, defeat.png) in the project folder.
 4. Run the bot:
+   python bot.py
 
-python bot.py
-
-5. Done
-(Note : Adjust the card coordinates and arena bounds in bot.py if your BlueStacks window has a different resolution.)
+The bot will launch Clash Royale, start a battle, drop cards every few seconds, and automatically stop once the game is over.
